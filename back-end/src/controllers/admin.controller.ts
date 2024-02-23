@@ -1,14 +1,14 @@
 // src/controllers/admin.controller.ts
 import { Body, Controller, Post, Get, Patch, Param, Delete } from '@nestjs/common';
 import { GroceryService } from '../services/grocery.service';
-import { CreateGroceryDto } from '../dto/create-grocery.dto';
+import { GroceryDto } from '../dtos/create-grocery.dto';
 
 @Controller('admin')
 export class AdminController {
   constructor(private readonly groceryService: GroceryService) {}
 
   @Post('add-grocery')
-  addGrocery(@Body() createGroceryDto: CreateGroceryDto) {
+  addGrocery(@Body() createGroceryDto: GroceryDto) {
     return this.groceryService.create(createGroceryDto);
   }
 
@@ -18,7 +18,7 @@ export class AdminController {
   }
 
   @Patch('update-grocery/:id')
-  updateGrocery(@Param('id') id: string, @Body() updateGroceryDto: UpdateGroceryDto) {
+  updateGrocery(@Param('id') id: string, @Body() updateGroceryDto: GroceryDto) {
     return this.groceryService.update(id, updateGroceryDto);
   }
 

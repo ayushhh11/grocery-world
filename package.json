@@ -1,41 +1,146 @@
 {
-  "name": "grocery-world",
-  "version": "0.1.0",
+  "name": "wellguardian-api",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
+  "license": "UNLICENSED",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "nest build -p tsconfig.build.json",
+    "reset": "rm -rf node_modules && yarn install",
+    "start": "NODE_ENV=development TZ=UTC nest start -p ./tsconfig.json src/main.ts --watch",
+    "start:windows": "SET NODE_ENV=development & SET TZ=UTC & nest start -p ./tsconfig.json src/main.ts --watch",
+    "prestart:prod": "rimraf dist && yarn build",
+    "start:prod": "node dist/main.js",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore . --fix",
+    "test": "docker-compose -f docker-compose.test.yml up -d && dotenv -e .env.test -- jest * --coverage --maxWorkers=1",
+    "test:watch": "docker-compose -f docker-compose.test.yml up -d && dotenv -e .env.test -- jest --watch",
+    "test:debug": "docker-compose -f docker-compose.test.yml up -d && node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest",
+    "test:sonar": "docker-compose -f docker-compose.test.yml up -d && dotenv -e .env.test -- jest --coverage",
+    "test:coverage": "docker-compose -f docker-compose.test.yml up -d && dotenv -e .env.test -- jest --coverage --maxWorkers=1",
+    "prepare": "husky install",
+    "security": "/bin/bash -c 'yarn audit --groups dependencies --level high; [[ $? -ge 8 ]] && exit 1 || exit 0'",
+    "type-check": "tsc --noEmit"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "engines": {
+    "node": "^18.18.1",
+    "yarn": "^1.22.5"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@azure/storage-blob": "^12.4.1",
+    "@babel/helper-get-function-arity": "^7.16.7",
+    "@nestjs/axios": "^0.0.2",
+    "@nestjs/common": "^8.0.9",
+    "@nestjs/config": "^1.0.2",
+    "@nestjs/core": "^8.0.9",
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/mongoose": "^8.0.1",
+    "@nestjs/platform-express": "^8.0.9",
+    "@nestjs/swagger": "^5.1.0",
+    "@nestjs/terminus": "^8.1.1",
+    "@nestjs/typeorm": "^8.0.1",
+    "@nestjsx/crud": "^5.0.0-alpha.3",
+    "@nestjsx/crud-typeorm": "^5.0.0-alpha.3",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/multer": "^1.4.5",
+    "@willsoto/nestjs-prometheus": "5.5.1",
+    "applicationinsights": "^1.8.10",
+    "async-mutex": "^0.4.1",
+    "axios": "^0.22.0",
+    "body-parser": "^1.20.2",
+    "class-transformer": "^0.3.1",
+    "class-validator": "^0.14.0",
+    "cli-color": "^2.0.0",
+    "cls-hooked": "^4.2.2",
+    "cookie-parser": "^1.4.5",
+    "dotenv-cli": "^4.0.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0",
+    "jwt-decode": "^3.0.0",
+    "mongoose": "^5.13.20",
+    "mssql": "^6.3.2",
+    "passport": "^0.7.0",
+    "passport-azure-ad": "^4.3.5",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.1.0",
+    "source-map-support": "^0.5.19",
+    "swagger-ui-express": "^4.3.0",
+    "ts.cryptojs256": "^1.0.1",
+    "typeorm": "^0.2.38",
+    "winston": "^3.3.3",
+    "xstate": "^4.25.0"
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.1"
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@nestjs/cli": "^9.0.0",
+    "@nestjs/schematics": "^8.0.3",
+    "@nestjs/testing": "^8.0.10",
+    "@types/cli-color": "^2.0.1",
+    "@types/cls-hooked": "^4.3.1",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.3",
+    "@types/jest": "^26.0.21",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/node": "^16.0.0",
+    "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "4.32.0",
+    "@typescript-eslint/parser": "4.32.0",
+    "eslint": "7.7.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-unused-imports": "^1.1.5",
+    "husky": "^7.0.2",
+    "jest": "^27.2.4",
+    "mockdate": "^3.0.5",
+    "prettier": "^1.19.1",
+    "prom-client": "^14.2.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^27.0.5",
+    "ts-loader": "^6.2.1",
+    "ts-node": "9.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.4.3"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html",
+      "json",
+      "lcov",
+      "text"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.(js?|ts?)$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "test-config",
+      "interfaces",
+      "jestGlobalMocks.ts",
+      ".module.ts",
+      ".entity.ts",
+      "<rootDir>/src/app/main.ts",
+      ".mock.ts"
+    ],
+    "testEnvironment": "node"
+  },
+  "resolutions": {
+    "minimist": "1.2.6",
+    "qs": "^6.10.3"
   }
 }

@@ -1,6 +1,13 @@
+import { Grocery } from "entities/grocery.entity";
+
 // src/dto/create-grocery.dto.ts
-export class CreateGroceryDto {
-    readonly name: string;
-    readonly price: number;
+export class GroceryDto {
+    name: string;
+    price: number;
+    constructor(groceryStore: Grocery) {
+      this.name = groceryStore.name;
+      this.price = groceryStore.price;
+      
+    }
   }
   

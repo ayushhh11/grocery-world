@@ -4,14 +4,14 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Grocery {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column('float')
-  price: number;
+  price!: number;
 
   @Column('int')
-  quantity: number;
+  quantity!: number;
 }
